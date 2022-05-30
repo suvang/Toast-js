@@ -16,8 +16,6 @@ const Toast = {
     this.containerTop = document.querySelector(".container-top");
     this.containerBottom = document.querySelector(".container-bottom");
 
-    this.removeInterval = null;
-
     this.hideTimeout = null;
     this.el = document.createElement("div");
     this.el.className = "toast";
@@ -39,6 +37,7 @@ const Toast = {
     Toast.init(position);
     let seconds = 5;
     let timeRemaining = document.createElement("div");
+    let removeInterval = null;
     timeRemaining.textContent = `${seconds}`;
     timeRemaining.className = "time-remaining";
 
@@ -47,10 +46,10 @@ const Toast = {
     };
 
     if (seconds === 0) {
-      clearInterval(this.removeInterval);
+      clearInterval(removeInterval);
     }
 
-    this.removeInterval = setInterval(function () {
+    removeInterval = setInterval(function () {
       seconds--;
       render(seconds);
     }, 1000);
@@ -126,5 +125,5 @@ const Toast = {
 };
 
 successBtn.addEventListener("click", () => {
-  Toast.show(`error toast`, "success", "top-center");
+  Toast.show(`success toast`, "success", "bottom-left");
 });
