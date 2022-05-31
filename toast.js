@@ -1,4 +1,4 @@
-let successBtn = document.getElementById("show-toast-button");
+let showToastBtn = document.getElementById("show-toast-button");
 
 const Toast = {
   counter: 0,
@@ -133,6 +133,6 @@ const Toast = {
 
 Toast.init();
 
-successBtn.addEventListener("click", () => {
+showToastBtn.addEventListener("click", () => {
   Toast.show("success toast", "success", "top-center", 5);
 });
