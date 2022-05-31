@@ -1,6 +1,4 @@
-let showToastBtn = document.getElementById("show-toast-button");
-
-const Toast = {
+export const Toast = {
   counter: 0,
 
   init() {
@@ -12,6 +10,11 @@ const Toast = {
       let containerTop = document.createElement("div");
       containerTop.className = "container-top";
       document.body.prepend(containerTop);
+
+      let cssScript = document.createElement("link");
+      cssScript.rel = "stylesheet";
+      cssScript.href = "./Toast/toast.css";
+      document.head.append(cssScript);
     });
   },
 
@@ -130,9 +133,3 @@ const Toast = {
     });
   },
 };
-
-Toast.init();
-
-showToastBtn.addEventListener("click", () => {
-  Toast.show("success toast", "success", "top-center", 5);
-});
