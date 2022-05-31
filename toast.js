@@ -2,6 +2,7 @@ let successBtn = document.getElementById("show-toast-button");
 
 const Toast = {
   counter: 0,
+
   init() {
     document.addEventListener("DOMContentLoaded", () => {
       let containerBottom = document.createElement("div");
@@ -63,42 +64,7 @@ const Toast = {
     toast.appendChild(timeRemaining);
     toast.appendChild(cross);
 
-    let toasts = document.querySelectorAll(".toast");
-
-    if (position) {
-      let topOrBottom = position.substring(0, position.indexOf("-"));
-      let placement = position.substring(position.indexOf("-") + 1);
-
-      toasts.forEach((toast) => {
-        if (toast.dataset.position === position) {
-          if (topOrBottom === "top") {
-            toast.style.marginTop = "20px";
-          } else {
-            toast.style.marginBottom = "20px";
-          }
-        }
-      });
-
-      container.style[topOrBottom] = "20px";
-
-      switch (placement) {
-        case "center":
-          container.style.left = "50%";
-          container.style.transform = "translate(-50%)";
-          break;
-
-        case "left":
-          container.style.left = "20px";
-          break;
-
-        case "right":
-          container.style.right = "20px";
-          break;
-
-        default:
-          break;
-      }
-    }
+    this.setToastPlacement(position, container);
 
     if (type) {
       toast.classList.add(`toast--${type}`);
@@ -115,6 +81,43 @@ const Toast = {
     }, 5000);
   },
 
+  setToastPlacement(position, container) {
+    let toasts = document.querySelectorAll(".toast");
+
+    let topOrBottom = position.substring(0, position.indexOf("-"));
+    let placement = position.substring(position.indexOf("-") + 1);
+
+    toasts.forEach((toast) => {
+      if (toast.dataset.position === position) {
+        if (topOrBottom === "top") {
+          toast.style.marginTop = "20px";
+        } else {
+          toast.style.marginBottom = "20px";
+        }
+      }
+    });
+
+    container.style[topOrBottom] = "20px";
+
+    switch (placement) {
+      case "center":
+        container.style.left = "50%";
+        container.style.transform = "translate(-50%)";
+        break;
+
+      case "left":
+        container.style.left = "20px";
+        break;
+
+      case "right":
+        container.style.right = "20px";
+        break;
+
+      default:
+        break;
+    }
+  },
+
   removeToast(deleteId) {
     deleteId.classList.add("hidden");
     deleteId.addEventListener("transitionend", () => {
@@ -126,5 +129,5 @@ const Toast = {
 Toast.init();
 
 successBtn.addEventListener("click", () => {
-  Toast.show("success toast", "success", "bottom-center");
+  Toast.show("success toast", "success", "top-center");
 });
