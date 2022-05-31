@@ -131,12 +131,9 @@ html {
   border-radius: 50%;
   background-color: #044ddc;
   background-image: linear-gradient(274deg, #2280f4ab 0%, #1870c1 74%);
-  padding: 1.5px 3px;
+  padding: 4px 5px 3px 5px;
   box-shadow: rgb(0 0 0 / 76%) 0px 2px 4px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
 }
 
 .hidden {

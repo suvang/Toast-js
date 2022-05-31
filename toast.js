@@ -1,43 +1,43 @@
 let successBtn = document.getElementById("show-toast-button");
 
-document.addEventListener("DOMContentLoaded", () => {
-  let containerBottom = document.createElement("div");
-  containerBottom.className = "container-bottom";
-  document.body.prepend(containerBottom);
-
-  let containerTop = document.createElement("div");
-  containerTop.className = "container-top";
-  document.body.prepend(containerTop);
-});
-
 const Toast = {
   counter: 0,
-  init(position) {
-    this.containerTop = document.querySelector(".container-top");
-    this.containerBottom = document.querySelector(".container-bottom");
+  init() {
+    document.addEventListener("DOMContentLoaded", () => {
+      let containerBottom = document.createElement("div");
+      containerBottom.className = "container-bottom";
+      document.body.prepend(containerBottom);
 
-    this.hideTimeout = null;
-    this.el = document.createElement("div");
-    this.el.className = "toast";
-
-    this.cross = document.createElement("div");
-    this.cross.className = "cross";
-    this.cross.textContent = "X";
-
-    if (position.includes("top")) {
-      this.containerTop.appendChild(this.el);
-      this.container = this.containerTop;
-    } else {
-      this.containerBottom.appendChild(this.el);
-      this.container = this.containerBottom;
-    }
+      let containerTop = document.createElement("div");
+      containerTop.className = "container-top";
+      document.body.prepend(containerTop);
+    });
   },
 
   show(message, type, position) {
-    Toast.init(position);
-    let seconds = 5;
+    let containerTop = document.querySelector(".container-top");
+    let containerBottom = document.querySelector(".container-bottom");
     let timeRemaining = document.createElement("div");
+    let toast = document.createElement("div");
+    let cross = document.createElement("div");
+    let container;
+    let seconds = 5;
     let removeInterval = null;
+    let hideTimeout = null;
+
+    toast.className = "toast";
+
+    cross.className = "cross";
+    cross.textContent = "X";
+
+    if (position.includes("top")) {
+      containerTop.appendChild(toast);
+      container = containerTop;
+    } else {
+      containerBottom.appendChild(toast);
+      container = containerBottom;
+    }
+
     timeRemaining.textContent = `${seconds}`;
     timeRemaining.className = "time-remaining";
 
@@ -54,17 +54,16 @@ const Toast = {
       render(seconds);
     }, 1000);
 
-    this.el.style = "";
-    this.el.textContent = message;
-    this.el.className = "toast toast--visible";
-    this.el.id = ++this.counter;
-    this.el.dataset.position = position;
+    toast.style = "";
+    toast.textContent = message;
+    toast.className = "toast toast--visible";
+    toast.id = ++this.counter;
+    toast.dataset.position = position;
 
-    this.el.appendChild(timeRemaining);
-    this.el.appendChild(this.cross);
-    this.closeBtn = document.querySelector(".cross");
+    toast.appendChild(timeRemaining);
+    toast.appendChild(cross);
 
-    this.cross.addEventListener("click", removeToast);
+    cross.addEventListener("click", removeToast);
 
     let toasts = document.querySelectorAll(".toast");
 
@@ -75,27 +74,27 @@ const Toast = {
       toasts.forEach((toast) => {
         if (toast.dataset.position === position) {
           if (topOrBottom === "top") {
-            this.el.style.marginTop = "20px";
+            toast.style.marginTop = "20px";
           } else {
-            this.el.style.marginBottom = "20px";
+            toast.style.marginBottom = "20px";
           }
         }
       });
 
-      this.container.style[topOrBottom] = "20px";
+      container.style[topOrBottom] = "20px";
 
       switch (placement) {
         case "center":
-          this.container.style.left = "50%";
-          this.container.style.transform = "translate(-50%)";
+          container.style.left = "50%";
+          container.style.transform = "translate(-50%)";
           break;
 
         case "left":
-          this.container.style.left = "20px";
+          container.style.left = "20px";
           break;
 
         case "right":
-          this.container.style.right = "20px";
+          container.style.right = "20px";
           break;
 
         default:
@@ -104,7 +103,7 @@ const Toast = {
     }
 
     if (type) {
-      this.el.classList.add(`toast--${type}`);
+      toast.classList.add(`toast--${type}`);
     }
 
     const deleteId = document.getElementById(this.counter);
@@ -116,14 +115,16 @@ const Toast = {
       });
     }
 
-    clearTimeout(this.hideTimeout);
+    clearTimeout(hideTimeout);
 
-    this.hideTimeout = setTimeout(() => {
+    hideTimeout = setTimeout(() => {
       removeToast();
     }, 5000);
   },
 };
 
+Toast.init();
+
 successBtn.addEventListener("click", () => {
-  Toast.show(`success toast`, "success", "bottom-left");
+  Toast.show("success toast", "success", "bottom-center");
 });
