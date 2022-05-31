@@ -15,15 +15,12 @@ const Toast = {
     });
   },
 
-  show(message, type, position) {
+  show(message, type, position, seconds) {
     let containerTop = document.querySelector(".container-top");
     let containerBottom = document.querySelector(".container-bottom");
-    let timeRemaining = document.createElement("div");
     let toast = document.createElement("div");
     let cross = document.createElement("div");
     let container;
-    let seconds = 5;
-    let removeInterval = null;
     let hideTimeout = null;
 
     toast.className = "toast";
@@ -38,6 +35,37 @@ const Toast = {
       containerBottom.appendChild(toast);
       container = containerBottom;
     }
+
+    toast.style = "";
+    toast.textContent = message;
+    toast.className = "toast toast--visible";
+    toast.id = ++this.counter;
+    toast.dataset.position = position;
+
+    this.setRemainingTime(toast, seconds);
+
+    toast.appendChild(cross);
+
+    this.setToastPlacement(position, container);
+
+    if (type) {
+      toast.classList.add(`toast--${type}`);
+    }
+
+    const deleteId = document.getElementById(this.counter);
+
+    cross.addEventListener("click", () => this.removeToast(deleteId));
+
+    clearTimeout(hideTimeout);
+
+    hideTimeout = setTimeout(() => {
+      this.removeToast(deleteId);
+    }, seconds * 1000);
+  },
+
+  setRemainingTime(toast, seconds) {
+    let timeRemaining = document.createElement("div");
+    let removeInterval = null;
 
     timeRemaining.textContent = `${seconds}`;
     timeRemaining.className = "time-remaining";
@@ -55,30 +83,7 @@ const Toast = {
       render(seconds);
     }, 1000);
 
-    toast.style = "";
-    toast.textContent = message;
-    toast.className = "toast toast--visible";
-    toast.id = ++this.counter;
-    toast.dataset.position = position;
-
     toast.appendChild(timeRemaining);
-    toast.appendChild(cross);
-
-    this.setToastPlacement(position, container);
-
-    if (type) {
-      toast.classList.add(`toast--${type}`);
-    }
-
-    const deleteId = document.getElementById(this.counter);
-
-    cross.addEventListener("click", () => this.removeToast(deleteId));
-
-    clearTimeout(hideTimeout);
-
-    hideTimeout = setTimeout(() => {
-      this.removeToast(deleteId);
-    }, 5000);
   },
 
   setToastPlacement(position, container) {
@@ -129,5 +134,5 @@ const Toast = {
 Toast.init();
 
 successBtn.addEventListener("click", () => {
-  Toast.show("success toast", "success", "top-center");
+  Toast.show("success toast", "success", "top-center", 5);
 });
