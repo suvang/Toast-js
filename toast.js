@@ -63,8 +63,6 @@ const Toast = {
     toast.appendChild(timeRemaining);
     toast.appendChild(cross);
 
-    cross.addEventListener("click", removeToast);
-
     let toasts = document.querySelectorAll(".toast");
 
     if (position) {
@@ -108,18 +106,20 @@ const Toast = {
 
     const deleteId = document.getElementById(this.counter);
 
-    function removeToast() {
-      deleteId.classList.add("hidden");
-      deleteId.addEventListener("transitionend", () => {
-        deleteId.remove();
-      });
-    }
+    cross.addEventListener("click", () => this.removeToast(deleteId));
 
     clearTimeout(hideTimeout);
 
     hideTimeout = setTimeout(() => {
-      removeToast();
+      this.removeToast(deleteId);
     }, 5000);
+  },
+
+  removeToast(deleteId) {
+    deleteId.classList.add("hidden");
+    deleteId.addEventListener("transitionend", () => {
+      deleteId.remove();
+    });
   },
 };
 
