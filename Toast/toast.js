@@ -5,11 +5,11 @@ export const Toast = {
     document.addEventListener("DOMContentLoaded", () => {
       let containerBottom = document.createElement("div");
       containerBottom.className = "container-bottom";
-      document.body.prepend(containerBottom);
+      document.body.append(containerBottom);
 
       let containerTop = document.createElement("div");
       containerTop.className = "container-top";
-      document.body.prepend(containerTop);
+      document.body.append(containerTop);
 
       let cssScript = document.createElement("link");
       cssScript.rel = "stylesheet";
