@@ -2,20 +2,18 @@ export const Toast = {
   counter: 0,
 
   init() {
-    document.addEventListener("DOMContentLoaded", () => {
-      let containerBottom = document.createElement("div");
-      containerBottom.className = "container-bottom";
-      document.body.append(containerBottom);
+    let containerBottom = document.createElement("div");
+    containerBottom.className = "container-bottom";
+    document.body.append(containerBottom);
 
-      let containerTop = document.createElement("div");
-      containerTop.className = "container-top";
-      document.body.append(containerTop);
+    let containerTop = document.createElement("div");
+    containerTop.className = "container-top";
+    document.body.append(containerTop);
 
-      let cssScript = document.createElement("link");
-      cssScript.rel = "stylesheet";
-      cssScript.href = "./Toast/toast.css";
-      document.head.append(cssScript);
-    });
+    let cssScript = document.createElement("link");
+    cssScript.rel = "stylesheet";
+    cssScript.href = "./Toast/toast.css";
+    document.head.append(cssScript);
   },
 
   show(message, type, position, seconds) {
@@ -43,7 +41,6 @@ export const Toast = {
     toast.textContent = message;
     toast.className = "toast toast--visible";
     toast.id = ++this.counter;
-    toast.dataset.position = position;
 
     this.setRemainingTime(toast, seconds);
 
@@ -96,12 +93,10 @@ export const Toast = {
     let placement = position.substring(position.indexOf("-") + 1);
 
     toasts.forEach((toast) => {
-      if (toast.dataset.position === position) {
-        if (topOrBottom === "top") {
-          toast.style.marginTop = "20px";
-        } else {
-          toast.style.marginBottom = "20px";
-        }
+      if (topOrBottom === "top") {
+        toast.style.marginTop = "20px";
+      } else {
+        toast.style.marginBottom = "20px";
       }
     });
 
