@@ -54,12 +54,12 @@ export const Toast = {
 
     const deleteId = document.getElementById(this.counter);
 
-    cross.addEventListener("click", () => this.removeToast(deleteId));
-
-    clearTimeout(hideTimeout);
+    cross.addEventListener("click", () =>
+      this.removeToast(deleteId, hideTimeout)
+    );
 
     hideTimeout = setTimeout(() => {
-      this.removeToast(deleteId);
+      this.removeToast(deleteId, hideTimeout);
     }, seconds * 1000);
   },
 
@@ -121,10 +121,11 @@ export const Toast = {
     }
   },
 
-  removeToast(deleteId) {
+  removeToast(deleteId, hideTimeout) {
     deleteId.classList.add("hidden");
     deleteId.addEventListener("transitionend", () => {
       deleteId.remove();
+      clearTimeout(hideTimeout);
     });
   },
 };

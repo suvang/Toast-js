@@ -5,5 +5,5 @@ Toast.init();
 let showToastBtn = document.getElementById("show-toast-button");
 
 showToastBtn.addEventListener("click", () => {
-  Toast.show("success toast", "success", "top-right", 5);
+  Toast.show("success toast", "success", "top-center", 5);
 });
